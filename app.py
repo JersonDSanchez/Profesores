@@ -553,3 +553,8 @@ def graficas():
                            datos_genero=datos_genero,
                            datos_categoria=datos_categoria,
                            datos_grado=datos_grado)
+
+if __name__ == '__main__':
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
