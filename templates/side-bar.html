@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#712cf9">
+    <title>Página Principal</title>
+    <!-- side bar y css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='side-barCSS.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ajustes-layout.css') }}">
+    <!-- iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+      <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+    }
+
+    .d-flex.flex-column.flex-shrink-0.bg-body-tertiary.p-2 {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .content {
+      flex-grow: 1;
+      overflow-y: auto;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+        <symbol id="home" viewBox="0 0 16 16">
+            <path
+                d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z">
+            </path>
+        </symbol>
+        {% if session.get('user_type') == 1 %}
+        <symbol id="speedometer2" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.517 14.841a1.13 1.13 0 0 0 .401.823q.195.162.478.252.284.091.665.091.507 0 .859-.158.354-.158.539-.44.187-.284.187-.656 0-.336-.134-.56a1 1 0 0 0-.375-.357 2 2 0 0 0-.566-.21l-.621-.144a1 1 0 0 1-.404-.176.37.37 0 0 1-.144-.299q0-.234.185-.384.188-.152.512-.152.214 0 .37.068a.6.6 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.2-.566 1.2 1.2 0 0 0-.5-.41 1.8 1.8 0 0 0-.78-.152q-.439 0-.776.15-.337.149-.527.421-.19.273-.19.639 0 .302.122.524.124.223.352.367.228.143.539.213l.618.144q.31.073.463.193a.39.39 0 0 1 .152.326.5.5 0 0 1-.085.29.56.56 0 0 1-.255.193q-.167.07-.413.07-.175 0-.32-.04a.8.8 0 0 1-.248-.115.58.58 0 0 1-.255-.384zM.806 13.693q0-.373.102-.633a.87.87 0 0 1 .302-.399.8.8 0 0 1 .475-.137q.225 0 .398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.4 1.4 0 0 0-.489-.272 1.8 1.8 0 0 0-.606-.097q-.534 0-.911.223-.375.222-.572.632-.195.41-.196.979v.498q0 .568.193.976.197.407.572.626.375.217.914.217.439 0 .785-.164t.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.8.8 0 0 1-.118.363.7.7 0 0 1-.272.25.9.9 0 0 1-.401.087.85.85 0 0 1-.478-.132.83.83 0 0 1-.299-.392 1.7 1.7 0 0 1-.102-.627zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879z" />
+        </symbol>
+        <symbol id="table" viewBox="0 0 16 16">
+            <path
+                d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z" />
+        </symbol>
+        {% endif %}
+    </svg>
+
+    <main class="d-flex flex-nowrap">
+        <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary p-2" style="width: 7.5rem;">
+            <a class="d-block text-decoration-none text-center" data-bs-toggle="tooltip" data-bs-placement="right">
+                <img src="{{ url_for('static', filename='IMAGENES/logo copia.png') }}" alt="Logo" class="sidebar-logo">
+            </a>
+            <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+                <li class="nav-item">
+                    <a href="#" class="nav-link activo py-3 border-bottom rounded-0" aria-current="page"
+                        data-bs-toggle="tooltip" data-bs-placement="right" title="Inicio" onclick="mostrarPantalla('pantalla-inicio')">
+                        <svg class="bi pe-none" width="45" height="45" role="img" aria-label="Home">
+                            <use xlink:href="#home"></use>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    {% if session.get('user_type') == 1 %}
+                    <a href="#" class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
+                        data-bs-placement="right" title="Importar" onclick="mostrarPantalla('pantalla-importar')">
+                        <svg class="bi pe-none" width="45" height="45" role="img" aria-label="Orders">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
+                        data-bs-placement="right" title="Gráficas" onclick="mostrarPantalla('pantalla-graficas')">
+                        <svg class="bi pe-none" width="45" height="45" role="img" aria-label="Orders">
+                            <use xlink:href="#table"></use>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </li>
+            </ul>
+            <div class="dropdown border-top justify-content-center">
+                <a href="#" class="d-flex p-3 justify-content-center align-items-center link-body-emphasis text-decoration-none dropdown-toggle" 
+                data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="mdo" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small shadow mb-2">
+                    <li><a class="dropdown-item" href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="b-example-divider b-example-vr"></div>
+        <div class="content p-4">
+            <!-- Pantalla de Inicio -->
+            <div id="pantalla-inicio" class="pantalla activa">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2>Gestión de Profesores</h2>
+                    {% if session.get('user_type') == 1 %}
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
+                        + Agregar Usuario
+                    </button>
+                    {% endif %}
+                </div>
+                                    <!-- Modal Agregar Usuario -->
+                    <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form method="POST" action="{{ url_for('agregar_usuario') }}">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="modalAgregarUsuarioLabel">Agregar Nuevo Usuario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nombre de Usuario</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Ej: admin01" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña segura" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipo_usuario" class="form-label">Tipo de Usuario</label>
+                                <select class="form-control" id="tipo_usuario" name="tipo_usuario" required>
+                                <option value="" disabled selected>Seleccionar tipo</option>
+                                <option value="1">Administrador</option>
+                                <option value="0">Consulta</option>
+                                </select>
+                            </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Guardar Usuario</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                {% if session.get('user_type') == 1 %}
+                <!-- Formulario para agregar profesor -->
+                <form method="POST" action="{{ url_for('agregar_profesor') }}" class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="numero_trabajador" placeholder="Número de Trabajador" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="nombre_completo" placeholder="Nombre Completo" required>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="fk_id_genero" class="form-control" required>
+                                <option value="" disabled selected>Seleccionar Género</option>
+                                {% for genero in generos %}
+                                    <option value="{{ genero.id_genero }}">{{ genero.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="rfc" placeholder="RFC" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="curp" placeholder="CURP" required>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="fk_id_categoria_profesor" class="form-control" required>
+                                <option value="" disabled selected>Seleccionar Categoría de Profesor</option>
+                                {% for cat in categorias %}
+                                    <option value="{{ cat.id_categoria_profesor }}">{{ cat.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="fk_id_grado_academico" class="form-control" required>
+                                <option value="" disabled selected>Seleccionar Grado Académico</option>
+                                {% for grado in grados_academicos %}
+                                    <option value="{{ grado.id_grado_academico }}">{{ grado.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="antiguedad_unam" placeholder="Antigüedad UNAM" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="antiguedad_carrera" placeholder="Antigüedad Carrera" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="email" class="form-control" name="correo" placeholder="Correo" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="numero_casa" placeholder="Número de Casa" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="numero_celular" placeholder="Número de Celular" required>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="direccion" placeholder="Dirección" required>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end gap-2">
+                {% endif %}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFiltroProfesor">Filtros</button>
+                        {% if session.get('user_type') == 1 %}
+                        <button type="submit" class="btn btn-success">Agregar Profesor</button>
+                        {% endif %}
+                        <a id="btnExportar" class="btn btn-success" href="#">Exportar</a>
+                    </div>
+                </form>
+                
+                <!-- Modal de Filtros -->
+                <div class="modal fade" id="modalFiltroProfesor" tabindex="-1" aria-labelledby="modalFiltroLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content text-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalFiltroLabel">Filtrar Profesores</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <form method="GET" action="{{ url_for('sidebar') }}">
+                        <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                            <input type="text" class="form-control" name="nombre" placeholder="Nombre completo" value="{{ request.args.get('nombre', '') }}">
+                            </div>
+                            <div class="col-md-6">
+                            <input type="text" class="form-control" name="numero_trabajador" placeholder="Número de trabajador" value="{{ request.args.get('numero_trabajador', '') }}">
+                            </div>
+                            <div class="col-md-6">
+                            <select name="genero" class="form-control">
+                                <option value="">Seleccionar género</option>
+                                {% for genero in generos %}
+                                <option value="{{ genero.id_genero }}" {% if request.args.get('genero') == genero.id_genero|string %}selected{% endif %}>{{ genero.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            </div>
+                            <div class="col-md-6">
+                            <select name="categoria" class="form-control">
+                                <option value="">Seleccionar categoría</option>
+                                {% for categoria in categorias %}
+                                <option value="{{ categoria.id_categoria_profesor }}" {% if request.args.get('categoria') == categoria.id_categoria_profesor|string %}selected{% endif %}>{{ categoria.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            </div>
+                            <div class="col-md-6">
+                            <select name="grado" class="form-control">
+                                <option value="">Seleccionar grado académico</option>
+                                {% for grado in grados_academicos %}
+                                <option value="{{ grado.id_grado_academico }}" {% if request.args.get('grado') == grado.id_grado_academico|string %}selected{% endif %}>{{ grado.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                        <a href="{{ url_for('sidebar') }}" class="btn btn-secondary">Limpiar</a>
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                </div>
+                <!-- Tabla de profesores -->
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped table-bordered table-profesores">
+                        <thead>
+                            <tr>
+                                <th>No. Trabajador</th>
+                                <th>Nombre Completo</th>
+                                <th>Género</th>
+                                <th>RFC</th>
+                                <th>CURP</th>
+                                <th>Categoría</th>
+                                <th>Grado Académico</th>
+                                <th>Antigüedad UNAM</th>
+                                <th>Antigüedad Carrera</th>
+                                <th>Correo</th>
+                                <th>Tel. Casa</th>
+                                <th>Celular</th>
+                                <th>Dirección</th>
+                                {% if session.get('user_type') == 1 %}
+                                <th>Acciones</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for profesor in profesores %}
+                            <tr data-id="{{ profesor.id_profesor }}"
+                                data-numero_trabajador="{{ profesor.numero_trabajador }}"
+                                data-nombre_completo="{{ profesor.nombre_completo }}"
+                                data-fk_id_genero="{{ profesor.fk_id_genero }}"
+                                data-rfc="{{ profesor.rfc }}"
+                                data-curp="{{ profesor.curp }}"
+                                data-fk_id_categoria_profesor="{{ profesor.fk_id_categoria_profesor }}"
+                                data-fk_id_grado_academico="{{ profesor.fk_id_grado_academico }}"
+                                data-antiguedad_unam="{{ profesor.antiguedad_unam }}"
+                                data-antiguedad_carrera="{{ profesor.antiguedad_carrera }}"
+                                data-correo="{{ profesor.correo }}"
+                                data-numero_casa="{{ profesor.numero_casa }}"
+                                data-numero_celular="{{ profesor.numero_celular }}"
+                                data-direccion="{{ profesor.direccion }}"
+                            >
+                                <td>{{ profesor.numero_trabajador }}</td>
+                                <td>{{ profesor.nombre_completo }}</td>
+                                <td>{{ profesor.genero }}</td>
+                                <td>{{ profesor.rfc }}</td>
+                                <td>{{ profesor.curp }}</td>
+                                <td>{{ profesor.categoria }}</td>
+                                <td>{{ profesor.grado_academico }}</td>
+                                <td>{{ profesor.antiguedad_unam }}</td>
+                                <td>{{ profesor.antiguedad_carrera }}</td>
+                                <td>{{ profesor.correo }}</td>
+                                <td>{{ profesor.numero_casa }}</td>
+                                <td>{{ profesor.numero_celular }}</td>
+                                <td>{{ profesor.direccion }}</td>
+                                {% if session.get('user_type') == 1 %}
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm btn-editar d-block mb-2 mx-auto" style="width: 80px;">Editar</button>
+                                    <a href="{{ url_for('eliminar_profesor', id=profesor.id_profesor) }}" 
+                                    class="btn btn-danger btn-sm d-block mx-auto" 
+                                    style="width: 80px; text-align: center;"
+                                    onclick="return confirm('¿Estás seguro de eliminar este profesor?')">
+                                    Eliminar
+                                    </a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="15" class="text-center">No hay profesores registrados.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Formulario para editar profesor, inicialmente oculto -->
+                <div id="form-editar-profesor" style="display:none; margin-top: 2rem;">
+                    <h3>Editar Profesor</h3>
+                    <form method="POST" id="editar-profesor-form">
+                        <input type="hidden" name="id_profesor" id="edit-id_profesor">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="numero_trabajador" id="edit-numero_trabajador" placeholder="Número de Trabajador" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="nombre_completo" id="edit-nombre_completo" placeholder="Nombre Completo" required>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="fk_id_genero" class="form-control" id="edit-fk_id_genero" required>
+                                    <option value="" disabled>Seleccionar Género</option>
+                                    {% for genero in generos %}
+                                    <option value="{{ genero.id_genero }}">{{ genero.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="rfc" id="edit-rfc" placeholder="RFC" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="curp" id="edit-curp" placeholder="CURP" required>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="fk_id_categoria_profesor" class="form-control" id="edit-fk_id_categoria_profesor" required>
+                                    <option value="" disabled>Seleccionar Categoría de Profesor</option>
+                                    {% for cat in categorias %}
+                                    <option value="{{ cat.id_categoria_profesor }}">{{ cat.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="fk_id_grado_academico" class="form-control" id="edit-fk_id_grado_academico" required>
+                                    <option value="" disabled>Seleccionar Grado Académico</option>
+                                    {% for grado in grados_academicos %}
+                                    <option value="{{ grado.id_grado_academico }}">{{ grado.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="antiguedad_unam" id="edit-antiguedad_unam" placeholder="Antigüedad UNAM" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="antiguedad_carrera" id="edit-antiguedad_carrera" placeholder="Antigüedad Carrera" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="email" class="form-control" name="correo" id="edit-correo" placeholder="Correo" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="numero_casa" id="edit-numero_casa" placeholder="Número de Casa" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="numero_celular" id="edit-numero_celular" placeholder="Número de Celular" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="direccion" id="edit-direccion" placeholder="Dirección" required>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-end">
+                            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                            <button type="button" id="cancelar-edicion" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% if session.get('user_type') == 1 %}
+            <!-- Pantalla de Importar -->
+            <div id="pantalla-importar" class="pantalla">
+                <h1>Subir Información</h1>
+                <form id="form-importar" method="POST" action="{{ url_for('importar_profesores') }}" enctype="multipart/form-data">
+                    <!-- Información de encabezados requeridos -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Formato requerido del archivo CSV:</label>
+                        <small class="form-text text-muted">
+                            El archivo debe contener los siguientes encabezados exactamente en este orden:
+                        </small>
+                        <div style="background-color: #e8f0fe; color: #1a237e; padding: 10px; border-radius: 5px; font-size: 0.9rem; margin-top: 5px;">
+                            <span style="font-family: monospace; white-space: normal; word-break: break-word;">
+                                numero_trabajador, nombre_completo, genero, rfc, curp, categoria_profesor, grado_academico, antiguedad_unam, antiguedad_carrera, correo, numero_casa, numero_celular, direccion
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Selección de archivo -->
+                    <div class="mb-3">
+                        <label for="archivo_csv" class="form-label">Selecciona archivo CSV</label>
+                        <input type="file" class="form-control" name="archivo_csv" id="archivo_csv" accept=".csv" required>
+                    </div>
+
+                    <!-- Vista previa del archivo -->
+                    <div id="vista-previa-container" style="display:none; margin-top: 20px;">
+                        <h5>Vista previa del archivo CSV:</h5>
+                        <div style="max-height:300px; overflow:auto;">
+                            <table class="table table-sm table-bordered" id="tabla-vista-previa"></table>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="button" id="btn-mostrar-previa" class="btn btn-primary">Mostrar Vista Previa</button>
+                        <button type="submit" id="btn-importar" class="btn btn-success" style="display:none;">Confirmar e Importar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+            <!-- Pantalla de Gráficas -->
+            <div id="pantalla-graficas" class="pantalla">
+                <h1>Gráficas</h1>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Dentro de este apartado podrás visualizar gráficas con los datos de: </label>
+                        <small class="form-text text-muted">
+                            Distribución por Género, Distribución por Categoría y Distribución por Grado Académico
+                        </small>
+                <div style="max-width: 600px; margin-bottom: 2rem;">
+                    <h3>Profesores por Género</h3>
+                    <canvas id="graficaGenero"></canvas>
+                </div>
+
+                <div style="max-width: 600px; margin-bottom: 2rem;">
+                    <h3>Profesores por Categoría</h3>
+                    <canvas id="graficaCategoria"></canvas>
+                </div>
+
+                <div style="max-width: 600px;">
+                    <h3>Profesores por Grado Académico</h3>
+                    <canvas id="graficaGrado"></canvas>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <script>
+        // Función para mostrar una pantalla y ocultar las demás
+        function mostrarPantalla(id) {
+            // Ocultar todas las pantallas
+            const pantallas = document.querySelectorAll('.pantalla');
+            pantallas.forEach(p => p.classList.remove('activa'));
+
+            // Mostrar la pantalla seleccionada
+            document.getElementById(id).classList.add('activa');
+            
+            // Actualizar estado activo en el sidebar
+            const itemsSidebar = document.querySelectorAll('.nav-link');
+            itemsSidebar.forEach(item => {
+                item.classList.remove('activo');
+            });
+            
+            // Agregar la clase 'activo' al ítem correspondiente
+            const activeItem = document.querySelector(`a[onclick="mostrarPantalla('${id}')"]`);
+            if (activeItem) {
+                activeItem.classList.add('activo');
+            }
+        }
+
+        // Manejo del formulario de edición
+        document.querySelectorAll('.btn-editar').forEach(button => {
+            button.addEventListener('click', () => {
+                const fila = button.closest('tr');
+
+                // Rellenar el formulario con los datos del profesor
+                document.getElementById('edit-id_profesor').value = fila.dataset.id;
+                document.getElementById('edit-numero_trabajador').value = fila.dataset.numero_trabajador;
+                document.getElementById('edit-nombre_completo').value = fila.dataset.nombre_completo;
+                document.getElementById('edit-fk_id_genero').value = String(fila.dataset.fk_id_genero);
+                document.getElementById('edit-rfc').value = fila.dataset.rfc;
+                document.getElementById('edit-curp').value = fila.dataset.curp;
+                document.getElementById('edit-fk_id_categoria_profesor').value = String(fila.dataset.fk_id_categoria_profesor);
+                document.getElementById('edit-fk_id_grado_academico').value = String(fila.dataset.fk_id_grado_academico);
+                document.getElementById('edit-antiguedad_unam').value = fila.dataset.antiguedad_unam;
+                document.getElementById('edit-antiguedad_carrera').value = fila.dataset.antiguedad_carrera;
+                document.getElementById('edit-correo').value = fila.dataset.correo;
+                document.getElementById('edit-numero_casa').value = fila.dataset.numero_casa;
+                document.getElementById('edit-numero_celular').value = fila.dataset.numero_celular;
+                document.getElementById('edit-direccion').value = fila.dataset.direccion;
+
+                // Cambiar acción del formulario para usar la ruta de actualización con el id correcto
+                document.getElementById('editar-profesor-form').action = `/profesores/actualizar/${fila.dataset.id}`;
+
+                // Mostrar el formulario
+                document.getElementById('form-editar-profesor').style.display = 'block';
+
+                // Scroll hacia el formulario
+                document.getElementById('form-editar-profesor').scrollIntoView({behavior: 'smooth'});
+            });
+        });
+
+        // Botón cancelar para ocultar el formulario
+        document.getElementById('cancelar-edicion').addEventListener('click', () => {
+            document.getElementById('form-editar-profesor').style.display = 'none';
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"
+        integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+"
+        crossorigin="anonymous"></script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnExportar = document.getElementById("btnExportar");
+        const urlActual = new URL(window.location.href);
+        const params = urlActual.search;
+
+        btnExportar.href = `/exportar_profesores${params}`;
+    });
+    </script>
+
+    <script>
+        document.getElementById('btn-mostrar-previa').addEventListener('click', function () {
+            const input = document.getElementById('archivo_csv');
+            const file = input.files[0];
+
+            if (!file) {
+                alert('Por favor selecciona un archivo CSV primero.');
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const text = e.target.result;
+                mostrarVistaPrevia(text);
+            };
+
+            reader.readAsText(file);
+        });
+
+        function mostrarVistaPrevia(csvText) {
+            const tabla = document.getElementById('tabla-vista-previa');
+            tabla.innerHTML = '';
+
+            const filas = csvText.trim().split('\n');
+            if (filas.length === 0) {
+                alert('Archivo CSV vacío o con formato incorrecto.');
+                return;
+            }
+
+            // Tomar encabezados
+            const encabezados = filas[0].split(',');
+
+            // Crear fila de encabezados
+            const trEncabezados = document.createElement('tr');
+            encabezados.forEach(enc => {
+                const th = document.createElement('th');
+                th.textContent = enc.trim();
+                trEncabezados.appendChild(th);
+            });
+            tabla.appendChild(trEncabezados);
+
+            // Mostrar máximo 10 filas para vista previa
+            const maxFilas = Math.min(10, filas.length - 1);
+            for (let i = 1; i <= maxFilas; i++) {
+                const filaDatos = filas[i].split(',');
+                const tr = document.createElement('tr');
+
+                filaDatos.forEach(celda => {
+                    const td = document.createElement('td');
+                    td.textContent = celda.trim();
+                    tr.appendChild(td);
+                });
+
+                tabla.appendChild(tr);
+            }
+
+            // Mostrar contenedor de vista previa y botón de importar
+            document.getElementById('vista-previa-container').style.display = 'block';
+            document.getElementById('btn-importar').style.display = 'inline-block';
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        function prepararDatos(data) {
+            return {
+                labels: data.map(item => item.etiqueta),
+                datasets: [{
+                    label: 'Total',
+                    data: data.map(item => item.cantidad),
+                    backgroundColor: ['#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f']
+                }]
+            };
+        }
+
+        const datosGenero = prepararDatos({{ datos_genero|tojson|safe }});
+        const datosCategoria = prepararDatos({{ datos_categoria|tojson|safe }});
+        const datosGrado = prepararDatos({{ datos_grado|tojson|safe }});
+
+        new Chart(document.getElementById('graficaGenero'), {
+            type: 'bar',
+            data: datosGenero,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Distribución por Género' }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('graficaCategoria'), {
+            type: 'bar',
+            data: datosCategoria,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Distribución por Categoría' }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('graficaGrado'), {
+            type: 'bar',
+            data: datosGrado,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Distribución por Grado Académico' }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

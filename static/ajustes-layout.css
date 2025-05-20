@@ -1,0 +1,71 @@
+/* Evitar scroll horizontal en toda la sección de pantalla-inicio */
+#pantalla-inicio {
+  max-width: 100vw; /* No exceder el ancho visible de la ventana */
+  overflow-x: hidden; /* Oculta scroll horizontal */
+  box-sizing: border-box;
+  padding-right: 15px; /* Para no chocar con el borde */
+}
+
+/* Desactivar scroll horizontal en tabla responsive */
+#pantalla-inicio .table-responsive {
+  overflow-x: hidden !important;
+}
+
+/* Ajustar la tabla para que se adapte sin scroll horizontal */
+#pantalla-inicio table {
+  width: 100% !important;
+  table-layout: fixed; /* Ancho fijo para columnas */
+  word-wrap: break-word;
+  white-space: normal; /* Permite que el texto se quiebre en varias líneas */
+}
+
+/* Ajustar inputs y selects para no superar el ancho del contenedor */
+#pantalla-inicio form input,
+#pantalla-inicio form select {
+  max-width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+
+/* Contenedor del sidebar */
+.d-flex.flex-column.flex-shrink-0.bg-body-tertiary.p-2 {
+  position: relative;
+  height: 100vh;
+}
+
+/* Dropdown pegado al fondo y ancho completo */
+.d-flex.flex-column.flex-shrink-0.bg-body-tertiary.p-2 > .dropdown {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #dee2e6;
+  background-color: inherit;
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 0;
+}
+
+/* Ajustar el botón para que esté centrado */
+.d-flex.flex-column.flex-shrink-0.bg-body-tertiary.p-2 > .dropdown > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Dropdown menu ancho completo */
+.d-flex.flex-column.flex-shrink-0.bg-body-tertiary.p-2 > .dropdown > ul.dropdown-menu {
+  width: 100%;
+  border-radius: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Centrar texto y botones en toda la tabla */
+.table-profesores th,
+.table-profesores td {
+    text-align: center;
+    vertical-align: middle; /* Para centrar verticalmente también */
+}
