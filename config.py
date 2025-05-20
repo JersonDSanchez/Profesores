@@ -1,22 +1,26 @@
 import os
 from dotenv import load_dotenv
+import psycopg2
 
-# Cargar variables del archivo .env
 load_dotenv()
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY')
-    
-    # Configuración de la base de datos
+
+    # Datos de conexión
     DB_HOST = os.getenv('DB_HOST')
+    DB_PORT = os.getenv('DB_PORT')
+    DB_NAME = os.getenv('DB_NAME')
     DB_USER = os.getenv('DB_USER')
     DB_PASSWORD = os.getenv('DB_PASSWORD')
-    DB_NAME = os.getenv('DB_NAME')
-    
-    # Diccionario para la conexión
-    DB_CONFIG = {
-        'host': DB_HOST,
-        'user': DB_USER,
-        'password': DB_PASSWORD,
-        'database': DB_NAME
-    }
+
+    # Método para obtener conexión
+    @staticmethod
+    def get_connection():
+        return psycopg2.connect(
+            host=Config.DB_HOST,
+            port=Config.DB_PORT,
+            database=Config.DB_NAME,
+            user=Config.DB_USER,
+            password=Config.DB_PASSWORD
+        )
