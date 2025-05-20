@@ -93,7 +93,7 @@
             <div class="dropdown border-top justify-content-center">
                 <a href="#" class="d-flex p-3 justify-content-center align-items-center link-body-emphasis text-decoration-none dropdown-toggle" 
                 data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="mdo" width="40" height="40" class="rounded-circle">
+                    <i class="bi bi-person-circle fs-3"></i>
                 </a>
                 <ul class="dropdown-menu text-small shadow mb-2">
                     <li><a class="dropdown-item" href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
@@ -112,7 +112,7 @@
                     </button>
                     {% endif %}
                 </div>
-                                    <!-- Modal Agregar Usuario -->
+                    <!-- Modal para Agregar Usuario -->
                     <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <form method="POST" action="{{ url_for('agregar_usuario') }}">
@@ -440,7 +440,6 @@
                         </div>
                     </div>
 
-                    <!-- Botones -->
                     <div class="d-flex gap-2 flex-wrap mt-3">
                         <button type="button" id="btn-mostrar-previa" class="btn btn-primary">Mostrar Vista Previa</button>
                         <button type="submit" id="btn-importar" class="btn btn-success" style="display:none;">Confirmar e Importar</button>
@@ -475,7 +474,7 @@
             {% endif %}
         </div>
     </main>
-
+    <!-- Scripts y Funciones -->
     <script>
         // Función para mostrar una pantalla y ocultar las demás
         function mostrarPantalla(id) {
@@ -545,16 +544,17 @@
         crossorigin="anonymous"></script>
     
     <script>
+    // Exportación a Archivos CSV
     document.addEventListener("DOMContentLoaded", function () {
         const btnExportar = document.getElementById("btnExportar");
         const urlActual = new URL(window.location.href);
         const params = urlActual.search;
-
         btnExportar.href = `/exportar_profesores${params}`;
     });
     </script>
 
     <script>
+        // Vista previa de la tabla que se inserta
         document.getElementById('btn-mostrar-previa').addEventListener('click', function () {
             const input = document.getElementById('archivo_csv');
             const file = input.files[0];
@@ -574,6 +574,7 @@
             reader.readAsText(file);
         });
 
+        // Funcion para mostra vista previa
         function mostrarVistaPrevia(csvText) {
             const tabla = document.getElementById('tabla-vista-previa');
             tabla.innerHTML = '';
@@ -620,6 +621,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
+        // Crear gráficas con estadísticas
+        // Funcion para usar datos de data
         function prepararDatos(data) {
             return {
                 labels: data.map(item => item.etiqueta),
