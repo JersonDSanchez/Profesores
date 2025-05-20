@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import csv
 import io
 import psycopg2
+import os
 from config import Config
 from psycopg2.extras import RealDictCursor
 
@@ -554,6 +555,5 @@ def graficas():
                            datos_grado=datos_grado)
     
 if __name__ == '__main__':
-    import os
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
