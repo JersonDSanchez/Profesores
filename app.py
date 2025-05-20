@@ -1,18 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response
-import mysql.connector
 import csv
 import io
-from mysql.connector import Error
+import psycopg2
 from config import Config
-import webbrowser
-from threading import Timer
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 def get_db_connection():
     try:
-        conn = mysql.connector.connect(**app.config['DB_CONFIG'])
+        conn = Config.get_connection()
         return conn
     except Error as e:
         print(f"Error de conexión a MySQL: {e}")
@@ -556,8 +553,3 @@ def graficas():
                            datos_genero=datos_genero,
                            datos_categoria=datos_categoria,
                            datos_grado=datos_grado)
-
-if __name__ == '__main__':
-    # Espera medio segundo y abre el navegador
-    Timer(0.5, lambda: webbrowser.open("http://127.0.0.1:5000")).start()
-    app.run(debug=False)
