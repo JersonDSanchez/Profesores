@@ -3,6 +3,7 @@ import csv
 import io
 import psycopg2
 from config import Config
+from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -34,7 +35,7 @@ def login():
             return render_template('login.html')
 
         try:
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
             query = "SELECT * FROM usuarios WHERE nombre_usuario = %s AND contrasena = %s"
             cursor.execute(query, (username, password))
             user = cursor.fetchone()
@@ -50,7 +51,6 @@ def login():
             print(f"Error en la consulta: {e}")
             flash('Error interno del servidor', 'error')
         finally:
-            if conn.is_connected():
                 cursor.close()
                 conn.close()
 
@@ -66,7 +66,7 @@ def sidebar():
     filtro_numero_trabajador = request.args.get('numero_trabajador', '')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     query = """
     SELECT p.id_profesor, p.numero_trabajador, p.nombre_completo, g.nombre AS genero,
@@ -177,7 +177,7 @@ def listar_profesores():
     profesores = []
     if conn:
         try:
-            cursor = conn.cursor(dictionary=True)
+            cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
             cursor.execute("""
                 SELECT p.*, g.nombre AS genero, c.nombre AS categoria, ga.nombre AS grado
                 FROM profesor p
@@ -239,7 +239,7 @@ def editar_profesor(id):
         return redirect(url_for('sidebar'))
 
     try:
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
         # Obtener profesor por id
         cursor.execute("SELECT * FROM profesores WHERE id_profesor = %s", (id,))
@@ -503,7 +503,6 @@ def importar_profesores():
         print(f"Error al importar CSV: {e}")
         flash('Ocurrió un error al importar el archivo.', 'danger')
     finally:
-        if conn.is_connected():
             cursor.close()
             conn.close()
 
@@ -516,7 +515,7 @@ def graficas():
         return redirect(url_for('login'))
     
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     
     # Consulta para contar por género
     cursor.execute("""
@@ -553,7 +552,7 @@ def graficas():
                            datos_genero=datos_genero,
                            datos_categoria=datos_categoria,
                            datos_grado=datos_grado)
-
+    
 if __name__ == '__main__':
     import os
     port = int(os.environ.get('PORT', 5000))
