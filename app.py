@@ -1,14 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response
 import csv
 import io
-import psycopg2
 import os
+import psycopg2
 from config import Config
 from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# Ruta para conexión de Base de datos
 def get_db_connection():
     try:
         conn = Config.get_connection()
@@ -16,7 +17,8 @@ def get_db_connection():
     except Error as e:
         print(f"Error de conexión a MySQL: {e}")
         return None
-    
+
+# Ruta para login, diferencia entre usuario admin y consulta
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
@@ -41,10 +43,10 @@ def login():
             cursor.execute(query, (username, password))
             user = cursor.fetchone()
 
+
             if user:
-                # Guardamos directamente el tipo de usuario como entero (0 o 1)
                 session['username'] = user['nombre_usuario']
-                session['user_type'] = user['tipo_usuario']  # Aquí está el cambio importante
+                session['user_type'] = user['tipo_usuario']
                 return redirect(url_for('sidebar'))
             else:
                 flash('Credenciales incorrectas', 'error')
@@ -57,6 +59,7 @@ def login():
 
     return render_template('login.html')
 
+# Ruta para visualización, filtro, edición y generación de datos dentro del sidebar
 @app.route('/sidebar')
 def sidebar():
     editar_id = request.args.get('editar_id', type=int)
@@ -74,12 +77,14 @@ def sidebar():
            p.rfc, p.curp, c.nombre AS categoria, ga.nombre AS grado_academico,
            p.antiguedad_unam, p.antiguedad_carrera, p.correo, p.numero_casa,
            p.numero_celular, p.direccion
-    FROM profesores p
-    JOIN genero g ON p.fk_id_genero = g.id_genero
-    JOIN categoria_profesor c ON p.fk_id_categoria_profesor = c.id_categoria_profesor
-    JOIN grado_academico ga ON p.fk_id_grado_academico = ga.id_grado_academico
-    WHERE 1=1
-    """
+            FROM profesores p
+            JOIN genero g ON p.fk_id_genero = g.id_genero
+            JOIN categoria_profesor c ON p.fk_id_categoria_profesor = c.id_categoria_profesor
+            JOIN grado_academico ga ON p.fk_id_grado_academico = ga.id_grado_academico
+            WHERE 1=1
+            """
+
+    #Filtros de la tabla profesores
     filtros = []
     valores = []
 
@@ -107,7 +112,7 @@ def sidebar():
     cursor.execute(query, valores)
     profesores = cursor.fetchall()
 
-    # Catálogos
+    # Datos de Catálogos
     cursor.execute("SELECT * FROM genero")
     generos = cursor.fetchall()
 
@@ -161,7 +166,7 @@ def sidebar():
         datos_grado=datos_grado
     )
 
-
+# Ruta para cerrar sesión
 @app.route('/logout')
 def logout():
     session.clear()
@@ -190,10 +195,9 @@ def listar_profesores():
         finally:
             cursor.close()
             conn.close()
-
     return render_template('profesores/listar_profesores.html', profesores=profesores)
 
-# Ruta para agregar todos los profesores
+# Ruta para agregar profesor
 @app.route('/agregar_profesor', methods=['POST'])
 def agregar_profesor():
     numero_trabajador = request.form['numero_trabajador']
@@ -228,7 +232,6 @@ def agregar_profesor():
     conn.commit()
     cursor.close()
     conn.close()
-
     return redirect(url_for('sidebar'))
 
 # Ruta para editar un profesor
@@ -238,7 +241,6 @@ def editar_profesor(id):
     if not conn:
         flash('Error de conexión a la base de datos', 'danger')
         return redirect(url_for('sidebar'))
-
     try:
         cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
@@ -320,7 +322,6 @@ def actualizar_profesor(id):
     finally:
         cursor.close()
         conn.close()
-
     return redirect(url_for('sidebar'))
 
 # Ruta para eliminar un profesor
@@ -330,7 +331,6 @@ def eliminar_profesor(id):
     if not conn:
         flash('Error de conexión a la base de datos', 'danger')
         return redirect(url_for('sidebar'))
-
     try:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM profesores WHERE id_profesor = %s", (id,))
@@ -342,26 +342,23 @@ def eliminar_profesor(id):
     finally:
         cursor.close()
         conn.close()
-
     return redirect(url_for('sidebar'))
 
+# Ruta para agregar nuevos usuarios
 @app.route('/agregar_usuario', methods=['POST'])
 def agregar_usuario():
     username = request.form.get('username')
     password = request.form.get('password')
-    tipo_usuario = request.form.get('tipo_usuario')  # "0" o "1"
+    tipo_usuario = request.form.get('tipo_usuario')
 
     if not username or not password or tipo_usuario is None:
         flash("Por favor completa todos los campos", "danger")
-        return redirect(url_for('sidebar'))  # Cambiar a donde corresponda
-
+        return redirect(url_for('sidebar'))
     try:
         tipo_usuario_int = int(tipo_usuario)
-
         conn = get_db_connection()
         cursor = conn.cursor()
-
-        # Consulta para evitar duplicados (opcional)
+        # Query para evitar duplicados
         cursor.execute("SELECT * FROM usuarios WHERE nombre_usuario = %s", (username,))
         if cursor.fetchone():
             flash("El nombre de usuario ya existe", "warning")
@@ -372,7 +369,6 @@ def agregar_usuario():
         query = "INSERT INTO usuarios (nombre_usuario, contrasena, tipo_usuario) VALUES (%s, %s, %s)"
         cursor.execute(query, (username, password, tipo_usuario_int))
         conn.commit()
-
         cursor.close()
         conn.close()
 
@@ -382,7 +378,8 @@ def agregar_usuario():
     except Exception as e:
         flash(f"Error al agregar usuario: {e}", "danger")
         return redirect(url_for('sidebar'))
-    
+
+# Ruta para exportar profesores
 @app.route('/exportar_profesores')
 def exportar_profesores():
     filtro_nombre = request.args.get('nombre', '')
@@ -432,10 +429,9 @@ def exportar_profesores():
     cursor.execute(query, valores)
     rows = cursor.fetchall()
 
-    # Crear CSV en memoria
     output = io.StringIO()
     writer = csv.writer(output)
-    writer.writerow([i[0] for i in cursor.description])  # encabezados
+    writer.writerow([i[0] for i in cursor.description])
     writer.writerows(rows)
 
     cursor.close()
@@ -446,6 +442,7 @@ def exportar_profesores():
     response.headers["Content-type"] = "text/csv"
     return response
 
+# Ruta para importar profesores
 @app.route('/profesores/importar', methods=['POST'])
 def importar_profesores():
     if session.get('user_type') != 1:
@@ -468,7 +465,6 @@ def importar_profesores():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Preparar query de inserción
         query = """
             INSERT INTO profesores (
                 numero_trabajador, nombre_completo, fk_id_genero, rfc, curp,
@@ -509,6 +505,7 @@ def importar_profesores():
 
     return redirect(url_for('sidebar'))
 
+# Ruta para crear gráficas de estadísticas
 @app.route('/graficas')
 def graficas():
     if 'username' not in session:
@@ -518,7 +515,7 @@ def graficas():
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     
-    # Consulta para contar por género
+    # Query para contar por género
     cursor.execute("""
         SELECT g.nombre AS categoria, COUNT(*) AS total
         FROM profesores p
@@ -527,7 +524,7 @@ def graficas():
     """)
     datos_genero = cursor.fetchall()
     
-    # Consulta para contar por categoría
+    # Query para contar por categoría
     cursor.execute("""
         SELECT c.nombre AS categoria, COUNT(*) AS total
         FROM profesores p
@@ -536,7 +533,7 @@ def graficas():
     """)
     datos_categoria = cursor.fetchall()
     
-    # Consulta para contar por grado académico
+    # Query para contar por grado académico
     cursor.execute("""
         SELECT ga.nombre AS categoria, COUNT(*) AS total
         FROM profesores p
@@ -548,12 +545,12 @@ def graficas():
     cursor.close()
     conn.close()
     
-    # Enviamos los datos a la plantilla
+    # Enviar datos a la plantilla
     return render_template('graficas.html',
                            datos_genero=datos_genero,
                            datos_categoria=datos_categoria,
                            datos_grado=datos_grado)
-    
+# Lanzar aplicación
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
